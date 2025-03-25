@@ -1,52 +1,62 @@
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class BFTAdjMatrix {
+public class BFTAdjacencyMatrix {
+    private int vertices;
+    private int[][] adjMatrix;
 
-    public static List<Integer> bfs(int[][] adjMatrix, int start) {
-        int n = adjMatrix.length;
-        boolean[] visited = new boolean[n];
+    // Constructor to initialize graph
+    public BFTAdjacencyMatrix(int vertices) {
+        this.vertices = vertices;
+        adjMatrix = new int[vertices][vertices];
+    }
+
+    // Method to add an edge between two vertices
+    public void addEdge(int source, int destination) {
+        adjMatrix[source][destination] = 1;
+        adjMatrix[destination][source] = 1; // For undirected graph
+    }
+
+    // Breadth-First Traversal (BFT) method
+    public void BFT(int startVertex) {
+        boolean[] visited = new boolean[vertices];
         Queue<Integer> queue = new LinkedList<>();
-        List<Integer> result = new ArrayList<>();
 
-        queue.add(start);
-        visited[start] = true;
+        // Start from the given vertex
+        visited[startVertex] = true;
+        queue.add(startVertex);
+
+        System.out.print("Breadth-First Traversal (BFT): ");
 
         while (!queue.isEmpty()) {
-            int vertex = queue.poll();
-            result.add(vertex);
+            int currentVertex = queue.poll();
+            System.out.print(currentVertex + " ");
 
-            for (int i = 0; i < n; i++) {
-                if (adjMatrix[vertex][i] == 1 && !visited[i]) {
-                    queue.add(i);
+            // Check all adjacent vertices
+            for (int i = 0; i < vertices; i++) {
+                if (adjMatrix[currentVertex][i] == 1 && !visited[i]) {
                     visited[i] = true;
+                    queue.add(i);
                 }
             }
         }
-        return result;
     }
 
     public static void main(String[] args) {
-        // Example Graph represented as an Adjacency Matrix
-        // 0 - 1 - 2
-        // |   |
-        // 3 - 4
-        int[][] adjMatrix = {
-            {0, 1, 0, 1, 0},
-            {1, 0, 1, 1, 1},
-            {0, 1, 0, 0, 0},
-            {1, 1, 0, 0, 1},
-            {0, 1, 0, 1, 0}
-        };
+        int vertices = 5; // Define the number of vertices
+        BFTAdjacencyMatrix graph = new BFTAdjacencyMatrix(vertices);
 
-        int startVertex = 0;
-        System.out.println("BFS Traversal: " + bfs(adjMatrix, startVertex));
+        // Define edges manually
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(1, 4);
+        graph.addEdge(2, 4);
+        graph.addEdge(3, 4);
 
-        // Additional test case
-        int startVertex2 = 2;
-        System.out.println("BFS Traversal from Vertex 2: " + bfs(adjMatrix, startVertex2));
+        // Perform BFT starting from vertex 0
+        graph.BFT(0);
     }
 }
-
-output:
-BFS Traversal: [0, 1, 3, 2, 4]
-BFS Traversal from Vertex 2: [2, 1, 0, 3, 4]
+ output:
+Breadth-First Traversal (BFT): 0 1 2 3 4 
