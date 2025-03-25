@@ -98,3 +98,7 @@ class MinHeap {
     }
 }
 output:
+Min-Heap before deletion: [2, 5, 10, 30, 20]
+Deleted Min Element: 2
+Min-Heap after deletion: [5, 20, 10, 30]
+
