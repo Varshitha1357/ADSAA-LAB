@@ -1,0 +1,47 @@
+import java.util.*;
+
+class DFS {
+
+    // Recursive function for DFS traversal
+    static void dfsRec(int[][] adjMatrix, boolean[] visited, int s) {
+        // Mark the current vertex as visited
+        visited[s] = true;
+        // Print the current vertex
+        System.out.print(s + " ");
+        // Recursively visit all adjacent vertices that are not visited yet
+        for (int i = 0; i < adjMatrix.length; i++) {
+            if (adjMatrix[s][i] == 1 && !visited[i]) {
+                dfsRec(adjMatrix, visited, i);
+            }
+        }
+    }
+
+    static void dfs(int[][] adjMatrix, int s) {
+        boolean[] visited = new boolean[adjMatrix.length];
+        dfsRec(adjMatrix, visited, s);
+    }
+
+    static void addEdge(int[][] adjMatrix, int u, int v) {
+        adjMatrix[u][v] = 1;
+        adjMatrix[v][u] = 1;
+    }
+
+    public static void main(String[] args) {
+        int V = 5; // Number of vertices in the graph
+        int[][] adjMatrix = new int[V][V];
+
+        // Define the edges of the graph
+        int[][] edges = { { 1, 2 }, { 1, 0 }, { 2, 0 }, { 2, 3 }, { 2, 4 } };
+        for (int[] e : edges) {
+            addEdge(adjMatrix, e[0], e[1]);
+        }
+
+        System.out.println("DFS starting from 0:");
+        dfs(adjMatrix, 0);
+    }
+}
+
+output:
+DFS starting from 0:
+0 1 2 3 4 
+=== Code Execution Successful ===
