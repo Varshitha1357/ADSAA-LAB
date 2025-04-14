@@ -28,7 +28,8 @@ class BFSadjlist {
     public static void main(String[] args) {
         int V = 5;
         List<List<Integer>> adj = new ArrayList<>(V);
-        for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
+        for (int i = 0; i < V; i++)
+             adj.add(new ArrayList<>());
 
         addEdge(adj, 0, 1);
         addEdge(adj, 0, 2);
