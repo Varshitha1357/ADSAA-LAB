@@ -1,0 +1,76 @@
+import java.util.Random;
+
+public class MergeSortExact {
+
+    // Merge Sort Function
+    public static void mergeSort(int[] arr, int low, int high) {
+        if (low < high) {
+            int mid = low + (high - low) / 2;
+            mergeSort(arr, low, mid);
+            mergeSort(arr, mid + 1, high);
+            merge(arr, low, mid, high);
+        }
+    }
+
+    // Merge Function
+    private static void merge(int[] arr, int low, int mid, int high) {
+        int[] left = new int[mid - low + 1];
+        int[] right = new int[high - mid];
+
+        // Copy data to temporary arrays
+        for (int i = 0; i < left.length; i++) left[i] = arr[low + i];
+        for (int i = 0; i < right.length; i++) right[i] = arr[mid + 1 + i];
+
+        int i = 0, j = 0, k = low;
+        
+        // Merge the temporary arrays back
+        while (i < left.length && j < right.length) {
+            arr[k++] = (left[i] <= right[j]) ? left[i++] : right[j++];
+        }
+        
+        // Copy remaining elements
+        while (i < left.length) arr[k++] = left[i++];
+        while (j < right.length) arr[k++] = right[j++];
+    }
+
+    // Generate Array for Best, Average, Worst Case
+    private static int[] generateArray(int size, String type) {
+        int[] arr = new int[size];
+        Random rand = new Random();
+        
+        for (int i = 0; i < size; i++) {
+            arr[i] = (type.equals("Worst")) ? size - i : (type.equals("Best") ? i : rand.nextInt(size));
+        }
+        return arr;
+    }
+
+    // Measure Exact Time (in ms)
+    private static long measureTime(int[] arr) {
+        long start = System.nanoTime();
+        mergeSort(arr, 0, arr.length - 1);
+        return (System.nanoTime() - start) / 1000000; // ms
+    }
+
+    public static void main(String[] args) {
+        int[] sizes = {1000, 5000, 10000};
+        System.out.println("Size     | Best (ms) | Average (ms) | Worst (ms)");
+        System.out.println("---------------------------------------------------");
+        
+        for (int size : sizes) {
+            System.out.printf("%-8d | %-9d | %-13d | %-10d\n",
+                size,
+                measureTime(generateArray(size, "Best")),
+                measureTime(generateArray(size, "Average")),
+                measureTime(generateArray(size, "Worst")));
+        }
+    }
+}
+
+output:
+Size     | Best (ms) | Average (ms) | Worst (ms)
+---------------------------------------------------
+1000     | 0         | 0             | 0         
+5000     | 0         | 0             | 0         
+10000    | 43        | 4             | 0         
+
+=== Code Execution Successful ===
